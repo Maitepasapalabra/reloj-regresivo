@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reloj Regresivo</title>
+    <style>
+        #timer {
+            font-family: 'Arial', sans-serif;
+            font-size: 2rem;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            width: 180px;
+            margin: 20px auto;
+        }
+
+        button {
+            margin: 5px;
+            padding: 5px 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: none;
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div id="timer">00:05:00</div>
+    <div style="text-align: center;">
+        <button onclick="startTimer()">Iniciar</button>
+        <button onclick="pauseTimer()">Pausar</button>
+        <button onclick="resetTimer()">Reiniciar</button>
+    </div>
+
+    <script>
+        let totalTime = 5 * 60; // Tiempo inicial en segundos (5 minutos)
+        let timerInterval;
+        let running = false;
+
+        function updateTimer() {
+            const minutes = String(Math.floor(totalTime / 60)).padStart(2, '0');
+            const seconds = String(totalTime % 60).padStart(2, '0');
+            document.getElementById("timer").textContent = `00:${minutes}:${seconds}`;
+        }
+
+        function startTimer() {
+            if (running) return;
+            running = true;
+            timerInterval = setInterval(() => {
+                if (totalTime > 0) {
+                    totalTime--;
+                    updateTimer();
+                } else {
+                    clearInterval(timerInterval);
+                    running = false;
+                    alert("¡Tiempo agotado!");
+                }
+            }, 1000);
+        }
+
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            running = false;
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            totalTime = 5 * 60; // Reiniciar a 5 minutos
+            updateTimer();
+        }
+
+        updateTimer(); // Inicializar el tiempo al cargar la página
+    </script>
+</body>
+</html>
